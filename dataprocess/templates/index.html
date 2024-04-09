@@ -1,0 +1,221 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Integrative Task</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background-image: linear-gradient(to right, #a2caf4, #c6cdf5, #e1d1f1, #f3d8ec, #fde2ea);
+        }
+
+        .img-view:hover {
+            cursor: pointer;
+            border: 2px dashed #1677FF ! important;
+        }
+
+        .text-colorful {
+            background-image: linear-gradient(to right, #6fadf0, #7d8ff5, #ad79e0, #ee78cf, #eb6e94); 
+            color: transparent; 
+            background-clip: text; 
+            font-weight: 900;
+            animation: colorful 3s ease-out infinite alternate;
+            background-size: 500%;
+        }
+
+        .information-card {
+            transform: scale(0.95);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .information-card:hover {
+            transform: scale(1.00);
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        }
+
+        @keyframes colorful {
+            from {
+                background-position: 0% 50%;
+            }
+
+            to {
+                background-position: 100% 50%;
+            }
+        }
+
+
+    </style>
+
+</head>
+<body>
+
+    <section style="display: flex; align-items: center; justify-content: center; flex-direction: column; width: 80%; margin: 60px auto; gap: 36px;">
+        
+        
+        <article style="display: flex; align-items: center; justify-content: center; flex-direction: column;gap: 36px;">
+            <h1 style="font-size: 36px; text-align: center;">Data proccess with any <span style="color: #1677FF; font-size: 36px;">.TXT</span></h1>
+            <p style="font-size: 18px; width: 80%; max-width: 800px;">Unleash the hidden potential of your data with our data processing platform. Turn any text into an actionable source of information using patterns, normalization, validation, and more.</p>
+        </article>
+
+        <article style="width: 100%;">
+            <div style="width: 100%; max-width: 1000px; background-color: #FEFEFF; padding: 16px; border-radius:
+            8px 8px 8px 8px; margin: 0 auto;">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="input-file" id="drop-area">
+                        <input type="file" id="input-file" name="input-file" accept=".txt" hidden>
+                        <div class="img-view" style="height: 200px; width: 100%; border-style: dashed; border-color: #000000; border-width: 2px; border-radius: 8px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px; background-color: #EEEEEE; transition: all 0.2s linear;"> 
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" style="fill: #1677ff;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM9.998 14.768H8.895v3.274h-.917v-3.274H6.893V14h3.105v.768zm2.725 3.274-.365-.731c-.15-.282-.246-.492-.359-.726h-.013c-.083.233-.185.443-.312.726l-.335.731h-1.045l1.171-2.045L10.336 14h1.05l.354.738c.121.245.21.443.306.671h.013c.096-.258.174-.438.276-.671l.341-.738h1.043l-1.139 1.973 1.198 2.069h-1.055zm4.384-3.274h-1.104v3.274h-.917v-3.274h-1.085V14h3.105v.768zM14 9h-1V4l5 5h-4z"></path></svg>
+                            <p>Drop TXT here</p>
+                        </div>
+                    </label>
+                    <div style="text-align: right;">
+                        <progress style="margin-top: 12px; width: 100%;" id="progress-bar" max="100" value="0" hidden></progress>
+                        <p style="margin-top: 12px;" id="file-name" hidden></p>
+                        <button id="btn-submit" type="submit" style="padding: 8px 28px; border-radius: 8px; background-color: #1677ff;border: none; color: #FFF; margin-top: 12px;" hidden>Enviar</button>
+                    </div>
+                    {% if error_message %}
+
+                        <div style="background-color: #F01E2C; color: #FFF; margin-top: 16px; padding: 12px; border-radius: 8px; display: flex; gap: 8px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(255, 255, 255, 1)"><path d="M11.001 10h2v5h-2zM11 16h2v2h-2z"></path><path d="M13.768 4.2C13.42 3.545 12.742 3.138 12 3.138s-1.42.407-1.768 1.063L2.894 18.064a1.986 1.986 0 0 0 .054 1.968A1.984 1.984 0 0 0 4.661 21h14.678c.708 0 1.349-.362 1.714-.968a1.989 1.989 0 0 0 .054-1.968L13.768 4.2zM4.661 19 12 5.137 19.344 19H4.661z"></path></svg>
+                            <p>{{error_message}}</p>
+                        </div>
+
+                    {% endif %}
+                </form>
+            </div>
+        </article>
+
+        {% if extracted_info %}
+
+            <div style="width: 100%; max-width: 1000px; background-color: #FEFEFF; padding: 16px; border-radius: 8px 8px 8px 8px; margin: 0 auto;">
+                <h3 style="text-align: center;">Your information processed</h3>
+
+                <p style="margin-top: 16px;">{{ extracted_info }}</p>
+            </div>
+
+        {% endif %}
+
+        <article style="width: 100%; padding: 20px;">
+            
+            <h1 style="font-size: 36px; text-align: center;">What can be done?</h1>
+
+            <div style="display: flex; justify-content: center; flex-direction: row; width: 100%; gap: 36px; flex-wrap: wrap; margin-top: 32px;">
+
+                <div class="information-card" style="background-color: #FEFEFF; padding: 24px; border-radius: 8px; width: 324px;">
+
+                    <div style="display: flex; gap: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="m7.375 16.781 1.25-1.562L4.601 12l4.024-3.219-1.25-1.562-5 4a1 1 0 0 0 0 1.562l5 4zm9.25-9.562-1.25 1.562L19.399 12l-4.024 3.219 1.25 1.562 5-4a1 1 0 0 0 0-1.562l-5-4zm-1.649-4.003-4 18-1.953-.434 4-18z"></path></svg>
+                        <h3 class="text-colorful">Regular Expressions</h3>
+                    </div>
+
+                    <p style="margin-top: 24px;">Our application uses regular expressions to define patterns that allow us to extract specific types of information from text documents. These regular expressions are implemented to identify and extract names, dates, locations and other relevant data accurately and efficiently.</p>
+    
+                </div>
+
+                <div class="information-card" style="background-color: #FEFEFF; padding: 24px; border-radius: 8px; width: 324px;">
+
+                    <div style="display: flex; gap: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z"></path></svg>
+                        <h3 class="text-colorful">Automata</h3>
+                    </div>
+
+                    <p style="margin-top: 24px;">We develop deterministic and nondeterministic finite automata to recognize complex patterns in text documents. These automata are implemented to identify sequences of words or phrases that indicate certain types of information, which allows us to perform advanced analysis of the documents.</p>
+    
+                </div>
+
+                <div class="information-card" style="background-color: #FEFEFF; padding: 24px; border-radius: 8px; width: 324px;">
+
+                    <div style="display: flex; gap: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="m15 12 5-4-5-4v2.999H2v2h13zm7 3H9v-3l-5 4 5 4v-3h13z"></path></svg>
+                        <h3 class="text-colorful">Transducers</h3>
+                    </div>
+
+                    <p style="margin-top: 24px;">Our application creates transducers to handle transformations or modifications to the extracted information, if necessary. These transducers are implemented to normalize the extracted data to a standard format for further processing, ensuring data coherence and consistency.</p>
+    
+                </div>
+
+                <div class="information-card" style="background-color: #FEFEFF; padding: 24px; border-radius: 8px; width: 324px;">
+
+                    <div style="display: flex; gap: 12px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);"><path d="M5 2c-1.103 0-2 .897-2 2v12c0 1.103.897 2 2 2h3.586L12 21.414 15.414 18H19c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2H5zm14 14h-4.414L12 18.586 9.414 16H5V4h14v12z"></path><path d="M7 7h10v2H7zm0 4h7v2H7z"></path></svg>
+                        <h3 class="text-colorful">Context-Free Grammar</h3>
+                    </div>
+
+                    <p style="margin-top: 24px;">We design context-free grammars to describe the structure and syntax of sentences and phrases in text documents. We implement parsers using these grammars to extract structured information from text based on syntactic rules and constraints, allowing us to understand and analyze content more deeply.</p>
+    
+                </div>
+
+            </div>
+                
+        </article>
+
+        
+    </section>
+
+    <footer style="width: 100%; padding: 16px; text-align: center; background-color: #FEFEFF;">
+
+        <p>Made with ❤️ by Diego, Daniel & Patiño. &copy; 2024</p>
+
+    </footer>
+
+    <script>
+
+        const dropArea = document.querySelector('#drop-area');
+        const inputFile = document.querySelector('#input-file');
+        const imgView = document.querySelector('#img-view');
+        const btnSubmit = document.querySelector('#btn-submit');
+        const fileName = document.querySelector('#file-name');
+        const progressBar = document.querySelector('#progress-bar');
+
+        function uploadFile() {
+
+            let percentage = 0;
+
+            progressBar.removeAttribute('hidden');
+
+            const interval = setInterval(function() {
+                if (percentage < 100) {
+                    percentage += 10;
+                    progressBar.value = percentage;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 100);
+
+            setTimeout(function() {
+                clearInterval(interval);
+                progressBar.value = 100;
+                btnSubmit.removeAttribute('hidden');
+                fileName.removeAttribute('hidden');
+                fileName.innerHTML = 'File uploaded: ' + inputFile.files.item(0).name;
+            }, 1000);
+        }
+
+        inputFile.addEventListener('change', uploadFile);
+
+        dropArea.addEventListener('dragover', function(event) {
+            event.preventDefault();
+        });
+
+        dropArea.addEventListener('drop', function(event) {
+            event.preventDefault();
+            inputFile.files = event.dataTransfer.files;
+            uploadFile();
+        });
+
+    </script>
+    
+</body>
+</html>
