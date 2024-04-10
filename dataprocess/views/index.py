@@ -14,7 +14,14 @@ class Index(View):
         if 'input-file' in request.FILES:
             myfile = request.FILES['input-file']
             if myfile.name.endswith('.txt'):
-                info = main(myfile)
+                options = {
+                    'regex': request.POST.get('input-regex', False),
+                    'automata': request.POST.get('input-automata', False),
+                    'transducer': request.POST.get('input-transducer', False),
+                    'context': request.POST.get('input-context', False),
+                }
+                info = main(myfile, options)
+                print(info)
                 return render(request, 'index.html', {'extracted_info': info})
             else:
                 return render(request, 'index.html', {'error_message': 'El archivo no es un archivo de texto.'})

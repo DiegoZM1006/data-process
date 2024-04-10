@@ -1,7 +1,12 @@
-import re
+import os
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-import os
+from dataprocess.utils.regex.main_regex import *
+from dataprocess.utils.transducer.normalize_names import *
+from dataprocess.utils.transducer.normalize_dates import *
+from dataprocess.utils.transducer.normalize_address import *
+from dataprocess.utils.transducer.normalize_emails import *
+from dataprocess.utils.transducer.normalize_phone_numbers import *
 
 def clear_documents_directory():
     files = os.listdir('documents')
@@ -10,38 +15,48 @@ def clear_documents_directory():
         os.remove(file_path)
 
 def read_text_file(file_path):
-    text = []
     with open('documents/' + file_path, 'r') as file:
-        for linea in file:
-            text.append(linea.strip())
-    return text
+        return file.read()
 
-def parse_text(text):
-    name_pattern = re.compile(r'[A-Z][a-z]+ [A-Z][a-z]+')
-    date_pattern = re.compile(r'\d{4}-\d{2}-\d{2}')
-    location_pattern = re.compile(r'[A-Z][a-z]+, [A-Z]{2}')
-
-    extracted_info = {
-        'names': name_pattern.findall(text),
-        'dates': date_pattern.findall(text),
-        'locations': location_pattern.findall(text)
-    }
-
-    return extracted_info
-
-def main(myfile):
+def main(myfile, options):
    
-    data = []
+    extracted_info = []
 
     fs = FileSystemStorage(location='documents/')
     filename = fs.save(myfile.name, myfile)
 
     # Change the next lines of the files to the correct processing of the file
 
-    extracted_info = read_text_file(filename)
-    data = extracted_info
+    content = read_text_file(filename)
+
+    # Use the regex for names, address, locations, phone numbers and emails
+    names = search_names(content)
+    dates = search_dates(content)
+    address = search_addresses(content)
+    phone_numbers = search_phone_numbers(content)
+    emails = search_emails(content)
+
+    # Use transducer for normalize the extracted information
+    # normalize_names = normalize_names_info(names)
+    # normalize_dates = normalize_dates_info(dates)
+    normalize_address = normalize_address_info(address)
+    normalize_phone_numbers = normalize_phone_number_info(phone_numbers)
+    normalize_emails = normalize_mail_info(emails)
+
+    extracted_info = {
+        'regex_names': names,
+        'regex_dates': dates,
+        'regex_addd': address,
+        'regex_phone_numbers': phone_numbers,
+        'regex_emails': emails,
+        # 'normalize_names': normalize_names,
+        # 'normalize_dates': normalize_dates,
+        'normalize_address': normalize_address,
+        'normalize_phone_numbers': normalize_phone_numbers,
+        'normalize_emails': normalize_emails,
+    }
 
     # continue...
 
     clear_documents_directory()
-    return data
+    return extracted_info

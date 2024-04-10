@@ -40,4 +40,4 @@ def normalize_phone_number_info(extracted_info):
         'phone_number': normalized_phones
     }
 
-    return normalized_info
+    return normalized_phones

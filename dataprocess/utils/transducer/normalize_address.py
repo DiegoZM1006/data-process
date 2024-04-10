@@ -101,4 +101,4 @@ def normalize_address_info(extracted_info):
         'address': normalized_address_info
     }
 
-    return normalized_info
+    return normalized_address_info

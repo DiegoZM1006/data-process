@@ -32,4 +32,4 @@ def normalize_mail_info(extracted_info):
         'mails': normalized_mails
     }
 
-    return normalized_info
+    return normalized_mails

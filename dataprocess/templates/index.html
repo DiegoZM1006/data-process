@@ -30,7 +30,7 @@
             color: transparent; 
             background-clip: text; 
             font-weight: 900;
-            animation: colorful 3s ease-out infinite alternate;
+            animation: colorful 2s ease-out infinite alternate;
             background-size: 500%;
         }
 
@@ -54,6 +54,10 @@
             }
         }
 
+        details:hover {
+            cursor: pointer;
+        }
+
 
     </style>
 
@@ -73,9 +77,30 @@
             8px 8px 8px 8px; margin: 0 auto;">
                 <form action="" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
+                    <details style="margin-bottom: 12px; position: relative;">
+                        <summary>Options</summary>
+                        <div style="position: absolute; background-color: #FEFEFF; padding: 12px 16px; width: 250px; border: 1px solid #000; border-radius: 8px; margin-top: -8px; left: 80px">
+                            <div>
+                                <input type="checkbox" name="input-regex" id="input-regex" value="Regex">
+                                <label for="">Regex</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="input-automata" id="input-automata" value="Automata">
+                                <label for="">Automata</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="input-transducer" id="input-transducer" value="Regex">
+                                <label for="">Transducer</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" name="input-context" id="input-context" value="Regex">
+                                <label for="">Context-Free Grammar</label>
+                            </div>
+                        </div>
+                    </details>
                     <label for="input-file" id="drop-area">
                         <input type="file" id="input-file" name="input-file" accept=".txt" hidden>
-                        <div class="img-view" style="height: 200px; width: 100%; border-style: dashed; border-color: #000000; border-width: 2px; border-radius: 8px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px; background-color: #EEEEEE; transition: all 0.2s linear;"> 
+                        <div class="img-view" style="height: 200px; width: 100%; border-style: dashed; border-color: #000000; border-width: 2px; border-radius: 8px; display: flex; justify-content: center; align-items: center; flex-direction: column; gap: 12px; background-color: #FBFBFA; transition: all 0.2s linear;"> 
                             <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" style="fill: #1677ff;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zM9.998 14.768H8.895v3.274h-.917v-3.274H6.893V14h3.105v.768zm2.725 3.274-.365-.731c-.15-.282-.246-.492-.359-.726h-.013c-.083.233-.185.443-.312.726l-.335.731h-1.045l1.171-2.045L10.336 14h1.05l.354.738c.121.245.21.443.306.671h.013c.096-.258.174-.438.276-.671l.341-.738h1.043l-1.139 1.973 1.198 2.069h-1.055zm4.384-3.274h-1.104v3.274h-.917v-3.274h-1.085V14h3.105v.768zM14 9h-1V4l5 5h-4z"></path></svg>
                             <p>Drop TXT here</p>
                         </div>
@@ -100,9 +125,62 @@
         {% if extracted_info %}
 
             <div style="width: 100%; max-width: 1000px; background-color: #FEFEFF; padding: 16px; border-radius: 8px 8px 8px 8px; margin: 0 auto;">
-                <h3 style="text-align: center;">Your information processed</h3>
+                <h2 style="text-align: center;">Your information processed</h2>
 
-                <p style="margin-top: 16px;">{{ extracted_info }}</p>
+                <div style="margin-top: 12px;">
+                    <h3 style="margin-bottom: 12px;">Regex information:</h3>
+                    {% if extracted_info.regex_names %}
+                    <p><strong>Names:</strong> 
+                        {% for name in extracted_info.regex_names %}{{ name|join:" " }}
+                            {% if not forloop.last %}, 
+                            {% endif %}
+                        {% endfor %}</p>
+                    {% endif %}
+
+                    {% if extracted_info.regex_dates %}
+                        <p><strong>Dates:</strong> {{ extracted_info.regex_dates|join:", " }}</p>
+                    {% endif %}
+
+                    {% if extracted_info.regex_addd %}
+                        <p><strong>Address:</strong> {{ extracted_info.regex_addd|join:", " }}</p>
+                    {% endif %}
+
+                    {% if extracted_info.regex_phone_numbers %}
+                        <p><strong>Phone Numbers:</strong> {{ extracted_info.regex_phone_numbers|join:", " }}</p>
+                    {% endif %}
+
+                    {% if extracted_info.regex_emails %}
+                        <p><strong>Emails:</strong> {{ extracted_info.regex_emails|join:", " }}</p>
+                    {% endif %}
+                </div>
+
+                <div style="margin-top: 12px;">
+                    <h3 style="margin-bottom: 12px;">Transducers information:</h3>
+                    {% if extracted_info.regex_names %}
+                    <p><strong>Names:</strong> 
+                        {% for name in extracted_info.regex_names %}{{ name|join:" " }}
+                            {% if not forloop.last %}, 
+                            {% endif %}
+                        {% endfor %}</p>
+                    {% endif %}
+
+                    {% if extracted_info.regex_dates %}
+                        <p><strong>Dates:</strong> {{ extracted_info.regex_dates|join:", " }}</p>
+                    {% endif %}
+
+                    {% if extracted_info.normalize_address %}
+                        <p><strong>Address:</strong> {{ extracted_info.normalize_address|join:", " }}</p>
+                    {% endif %}
+
+                    {% if extracted_info.normalize_phone_numbers %}
+                        <p><strong>Phone Numbers:</strong> {{ extracted_info.normalize_phone_numbers|join:", " }}</p>
+                    {% endif %}
+
+                    {% if extracted_info.normalize_emails %}
+                        <p><strong>Emails:</strong> {{ extracted_info.normalize_emails|join:", " }}</p>
+                    {% endif %}
+                </div>
+
             </div>
 
         {% endif %}
