@@ -8,6 +8,8 @@ from dataprocess.utils.transducer.normalize_address import *
 from dataprocess.utils.transducer.normalize_emails import *
 from dataprocess.utils.transducer.normalize_phone_numbers import *
 from dataprocess.utils.automata.deterministic.functions import *
+from dataprocess.utils.automata.nodeterministic.functions import *
+from dataprocess.utils.grammar.cfg import *
 
 def clear_documents_directory():
     files = os.listdir('documents')
@@ -48,7 +50,11 @@ def main(myfile, options):
     # normalize_emails = normalize_mail_info(emails)
 
     # Use automata to validate the extracted information
+    validate_cards = load_content(myfile)
     validate_phone_numbers = extract_text_info(phone_numbers)
+
+    # Use CFG to validate the extracted information
+    cfg_urls = validate_urls_in_text(content)
 
     extracted_info = {
         'regex_names': names,
@@ -61,7 +67,9 @@ def main(myfile, options):
         'normalize_address': normalize_address,
         'normalize_phone_numbers': normalize_phone_numbers,
         # 'normalize_emails': normalize_emails,
-        'validate_phone_numbers': validate_phone_numbers
+        'validate_cards': validate_cards,
+        'validate_phone_numbers': validate_phone_numbers,
+        'cfg_urls': cfg_urls,
     }
 
     # continue...

@@ -21,6 +21,7 @@ class Index(View):
                     'context': request.POST.get('input-context', False),
                 }
                 info = main(myfile, options)
+                print(info['cfg_urls'])
                 return render(request, 'index.html', {'extracted_info': info})
             else:
                 return render(request, 'index.html', {'error_message': 'El archivo no es un archivo de texto.'})

@@ -199,11 +199,34 @@
                     {% if extracted_info.validate_phone_numbers %}
                         <p><strong>Phone Numbers:</strong> {{ extracted_info.validate_phone_numbers|join:", " }}</p>
                     {% endif %}
+
+                    {% if extracted_info.validate_cards %}
+                        <p><strong>Credit/Debit Cards:</strong></p>
+                        <br>
+                        {% for card_type, card_numbers in extracted_info.validate_cards.items %}
+                            <div>
+                                <p style="display: inline-block;">{{ card_type }}:</p>
+                                {% if card_numbers %}
+                                    {% for number in card_numbers %}
+                                        <p style="display: inline-block;">
+                                            {{ number }}
+                                            {% if not forloop.last %}, 
+                                            {% endif %}
+                                        </p>
+                                    {% endfor %}
+                                {% else %}
+                                    <p style="display: inline-block;">No hay tarjetas</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
                 </div>
 
                 <div style="margin-top: 12px;">
                     <h3 style="margin-bottom: 12px;">Context-Free Grammar information:</h3>
-                    <p>Falta...</p>
+                    {% if extracted_info.cfg_urls %}
+                        <p><strong>URLs found: </strong> {{ extracted_info.cfg_urls|join:", " }}</p>
+                    {% endif %}
                 </div>
 
             </div>
