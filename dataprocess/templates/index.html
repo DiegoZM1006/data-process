@@ -131,7 +131,8 @@
                     <h3 style="margin-bottom: 12px;">Regex information:</h3>
                     {% if extracted_info.regex_names %}
                     <p><strong>Names:</strong> 
-                        {% for name in extracted_info.regex_names %}{{ name|join:" " }}
+                        {% for name in extracted_info.regex_names %}
+                            {{ name|join:" " }}
                             {% if not forloop.last %}, 
                             {% endif %}
                         {% endfor %}</p>
@@ -156,16 +157,17 @@
 
                 <div style="margin-top: 12px;">
                     <h3 style="margin-bottom: 12px;">Transducers information:</h3>
-                    {% if extracted_info.regex_names %}
+                    {% if extracted_info.normalize_names %}
                     <p><strong>Names:</strong> 
-                        {% for name in extracted_info.regex_names %}{{ name|join:" " }}
-                            {% if not forloop.last %}, 
+                        <br><br>
+                        {% for name in extracted_info.normalize_names %}{{ name|join:" " }}
+                            {% if not forloop.last %}. <br><br>
                             {% endif %}
                         {% endfor %}</p>
                     {% endif %}
-
-                    {% if extracted_info.regex_dates %}
-                        <p><strong>Dates:</strong> {{ extracted_info.regex_dates|join:", " }}</p>
+                    <br>
+                    {% if extracted_info.normalize_dates %}
+                        <p><strong>Dates:</strong> {{ extracted_info.normalize_dates|join:", " }}</p>
                     {% endif %}
 
                     {% if extracted_info.normalize_address %}
@@ -176,9 +178,32 @@
                         <p><strong>Phone Numbers:</strong> {{ extracted_info.normalize_phone_numbers|join:", " }}</p>
                     {% endif %}
 
-                    {% if extracted_info.normalize_emails %}
+                    <!-- {% if extracted_info.normalize_emails %}
                         <p><strong>Emails:</strong> {{ extracted_info.normalize_emails|join:", " }}</p>
+                    {% endif %} -->
+                </div>
+
+                <div style="margin-top: 12px;">
+                    <h3 style="margin-bottom: 12px;">Automata information:</h3>
+                    <!-- {% if extracted_info.regex_names %}
+                    <p><strong>Names:</strong> 
+                        {% for name in extracted_info.regex_names %}{{ name|join:" " }}
+                            {% if not forloop.last %}, 
+                            {% endif %}
+                        {% endfor %}</p>
                     {% endif %}
+
+                    {% if extracted_info.regex_dates %}
+                        <p><strong>Dates:</strong> {{ extracted_info.regex_dates|join:", " }}</p>
+                    {% endif %} -->
+                    {% if extracted_info.validate_phone_numbers %}
+                        <p><strong>Phone Numbers:</strong> {{ extracted_info.validate_phone_numbers|join:", " }}</p>
+                    {% endif %}
+                </div>
+
+                <div style="margin-top: 12px;">
+                    <h3 style="margin-bottom: 12px;">Context-Free Grammar information:</h3>
+                    <p>Falta...</p>
                 </div>
 
             </div>

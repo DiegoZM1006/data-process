@@ -7,6 +7,7 @@ from dataprocess.utils.transducer.normalize_dates import *
 from dataprocess.utils.transducer.normalize_address import *
 from dataprocess.utils.transducer.normalize_emails import *
 from dataprocess.utils.transducer.normalize_phone_numbers import *
+from dataprocess.utils.automata.deterministic.functions import *
 
 def clear_documents_directory():
     files = os.listdir('documents')
@@ -37,11 +38,17 @@ def main(myfile, options):
     emails = search_emails(content)
 
     # Use transducer for normalize the extracted information
-    # normalize_names = normalize_names_info(names)
-    # normalize_dates = normalize_dates_info(dates)
+        
+    merge_names = [f"{nombre} {apellido}" for nombre, apellido in names]
+
+    normalize_names = normalize_names_info(merge_names)
+    normalize_dates = normalize_dates_info(dates)
     normalize_address = normalize_address_info(address)
     normalize_phone_numbers = normalize_phone_number_info(phone_numbers)
-    normalize_emails = normalize_mail_info(emails)
+    # normalize_emails = normalize_mail_info(emails)
+
+    # Use automata to validate the extracted information
+    validate_phone_numbers = extract_text_info(phone_numbers)
 
     extracted_info = {
         'regex_names': names,
@@ -49,11 +56,12 @@ def main(myfile, options):
         'regex_addd': address,
         'regex_phone_numbers': phone_numbers,
         'regex_emails': emails,
-        # 'normalize_names': normalize_names,
-        # 'normalize_dates': normalize_dates,
+        'normalize_names': normalize_names,
+        'normalize_dates': normalize_dates,
         'normalize_address': normalize_address,
         'normalize_phone_numbers': normalize_phone_numbers,
-        'normalize_emails': normalize_emails,
+        # 'normalize_emails': normalize_emails,
+        'validate_phone_numbers': validate_phone_numbers
     }
 
     # continue...
