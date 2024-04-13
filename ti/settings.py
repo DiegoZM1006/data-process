@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-$cu#4r8g-k(ivnr1cp9fl#)%#=2a6hktz#u@q*h0uy(z7_6x2+
 DEBUG = True
 
 ALLOWED_HOSTS = ['integrativetask.azurewebsites.net', 'http://127.0.0.1:8000/']
-
+CSRF_TRUSTED_ORIGINS = ['https://integrativetask.azurewebsites.net']
 
 # Application definition
 
