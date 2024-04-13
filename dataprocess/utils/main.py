@@ -37,7 +37,9 @@ def main(myfile, options):
     dates = search_dates(content)
     address = search_addresses(content)
     phone_numbers = search_phone_numbers(content)
+    adf_formmat_possibles_numbers = search_adf_formmat_possibles_numbers(content)
     emails = search_emails(content)
+
 
     # Use transducer for normalize the extracted information
         
@@ -51,7 +53,7 @@ def main(myfile, options):
 
     # Use automata to validate the extracted information
     validate_cards = load_content(myfile)
-    validate_phone_numbers = extract_text_info(phone_numbers)
+    validate_phone_numbers = extract_text_info(adf_formmat_possibles_numbers)
 
     # Use CFG to validate the extracted information
     cfg_urls = validate_urls_in_text(content)

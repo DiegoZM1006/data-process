@@ -197,7 +197,25 @@
                         <p><strong>Dates:</strong> {{ extracted_info.regex_dates|join:", " }}</p>
                     {% endif %} -->
                     {% if extracted_info.validate_phone_numbers %}
-                        <p><strong>Phone Numbers:</strong> {{ extracted_info.validate_phone_numbers|join:", " }}</p>
+                        <p><strong>Phone Numbers:</strong></p>
+                        <br>
+                        {% for number_type, phone_number in extracted_info.validate_phone_numbers.items %}
+                            <div>
+                                <p style="display: inline-block;">{{ number_type }}:</p>
+                                {% if phone_number %}
+                                    {% for number in phone_number %}
+                                        <p style="display: inline-block;">
+                                            {{ number }}
+                                            {% if not forloop.last %}, 
+                                            {% endif %}
+                                        </p>
+                                    {% endfor %}
+                                {% else %}
+                                    <p style="display: inline-block;">There is not phone numbers</p>
+                                {% endif %}
+                            </div>
+                        {% endfor %}
+                        <br>
                     {% endif %}
 
                     {% if extracted_info.validate_cards %}
@@ -215,7 +233,7 @@
                                         </p>
                                     {% endfor %}
                                 {% else %}
-                                    <p style="display: inline-block;">No hay tarjetas</p>
+                                    <p style="display: inline-block;">There is not cards</p>
                                 {% endif %}
                             </div>
                         {% endfor %}
