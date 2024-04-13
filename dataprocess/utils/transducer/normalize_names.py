@@ -21,6 +21,16 @@ def normalize_names_info(extracted_info):
 
     transducer.add_transitions([
         ('q0', ' ', 'q0', [' ']),
+        ('q0', 'Á', 'q0', ['Á']),
+        ('q0', 'á', 'q0', ['á']),
+        ('q0', 'É', 'q0', ['É']),
+        ('q0', 'é', 'q0', ['é']),
+        ('q0', 'Í', 'q0', ['Í']),
+        ('q0', 'í', 'q0', ['í']),
+        ('q0', 'Ó', 'q0', ['Ó']),
+        ('q0', 'ó', 'q0', ['ó']),
+        ('q0', 'Ú', 'q0', ['Ú']),
+        ('q0', 'ú', 'q0', ['ú']),
     ])
     transducer.add_start_state('q0')
     transducer.add_final_state('q0')
